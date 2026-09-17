@@ -37,6 +37,9 @@ def load_model():
         DEMO_MODE = True
         print(f"[INFO] Model not found at {MODEL_PATH}. Running in DEMO mode.")
 
+# Automatically load trained model on module import
+load_model()
+
 
 def _build_dataframe(features: CustomerFeatures) -> pd.DataFrame:
     """

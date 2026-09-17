@@ -5,7 +5,7 @@ from pathlib import Path
 from fastapi import APIRouter
 from app.schemas.prediction import ModelMetrics
 
-MODEL_DIR = Path(__file__).parent.parent.parent.parent / "models"
+MODEL_DIR = Path(__file__).parent.parent.parent / "models"
 
 router = APIRouter()
 
@@ -74,14 +74,29 @@ async def get_feature_importance():
 
 @router.get("/confusion-matrix")
 async def get_confusion_matrix():
+    path = MODEL_DIR / "metrics.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        if "confusionMatrix" in data:
+            return data["confusionMatrix"]
     return DEMO_CONFUSION_MATRIX
 
 
 @router.get("/roc-curve")
 async def get_roc_curve():
+    path = MODEL_DIR / "metrics.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        if "rocCurve" in data:
+            return data["rocCurve"]
     return DEMO_ROC_CURVE
 
 
 @router.get("/pr-curve")
 async def get_pr_curve():
+    path = MODEL_DIR / "metrics.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        if "prCurve" in data:
+            return data["prCurve"]
     return DEMO_PR_CURVE

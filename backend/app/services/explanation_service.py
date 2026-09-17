@@ -59,26 +59,65 @@ def _demo_shap(features: CustomerFeatures) -> ExplanationResponse:
 
 
 def explain(features: CustomerFeatures) -> ExplanationResponse:
-    """
-    Generate SHAP-based explanation for a prediction.
+    """Generate real SHAP-based feature explanations for a customer prediction."""
+    from app.services.prediction_service import _pipeline, _build_dataframe, DEMO_MODE, _num_features, _cat_features
 
-    To connect the real SHAP explainer:
-      1. Load TreeExplainer with your trained XGBoost model.
-      2. Build the feature DataFrame matching your training pipeline.
-      3. Compute shap_values and map to ShapFactor objects.
-      4. Replace the _demo_shap() call below.
-    """
-    if DEMO_MODE:
+    if DEMO_MODE or _pipeline is None:
         return _demo_shap(features)
 
-    # ── Real SHAP path ───────────────────────────────────────
-    # import shap
-    # from app.services.prediction_service import _model
-    # import pandas as pd
-    #
-    # row = pd.DataFrame([features.model_dump()])
-    # explainer = shap.TreeExplainer(_model)
-    # sv = explainer.shap_values(row)[0]
-    # ... map sv to ShapFactor list ...
-
-    return _demo_shap(features)  # placeholder
+    try:
+        import shap
+        df = _build_dataframe(features)
+        
+        preprocessor = _pipeline.named_steps["preprocessor"]
+        model = _pipeline.named_steps["classifier"]
+        
+        # Transform row through pipeline preprocessor
+        X_trans = preprocessor.transform(df)
+        
+        explainer = shap.TreeExplainer(model)
+        shap_vals = explainer.shap_values(X_trans)[0]
+        
+        all_feature_names = _num_features + _cat_features
+        
+        positives: list[ShapFactor] = []
+        negatives: list[ShapFactor] = []
+        
+        display_names = {
+            "Contract": "Contract Type", "MonthlyCharges": "Monthly Charges",
+            "tenure": "Tenure (months)", "InternetService": "Internet Service",
+            "PaymentMethod": "Payment Method", "TechSupport": "Tech Support",
+            "OnlineSecurity": "Online Security", "TotalCharges": "Total Charges",
+            "PaperlessBilling": "Paperless Billing", "SeniorCitizen": "Senior Citizen",
+            "TenureGroup": "Tenure Group", "ChargesPerMonth": "Charges Per Month",
+            "ServiceCount": "Service Count",
+        }
+        
+        for name, val, shap_v in zip(all_feature_names, df.iloc[0], shap_vals):
+            disp = display_names.get(name, name)
+            impact = round(float(shap_v), 4)
+            if impact > 0:
+                positives.append(ShapFactor(feature=name, displayName=disp, value=val, impact=impact))
+            elif impact < 0:
+                negatives.append(ShapFactor(feature=name, displayName=disp, value=val, impact=impact))
+                
+        top_pos = sorted(positives, key=lambda f: -f.impact)[:5]
+        top_neg = sorted(negatives, key=lambda f: f.impact)[:3]
+        
+        main = top_pos[0].displayName.lower() if top_pos else "contract type"
+        second = top_pos[1].displayName.lower() if len(top_pos) > 1 else "monthly charges"
+        summary = (
+            f"SHAP feature attribution identifies the customer's {main} and {second} "
+            f"as the primary factors driving their predicted churn risk."
+        )
+        
+        return ExplanationResponse(
+            customerID=features.customerID,
+            topPositiveFactors=top_pos,
+            topNegativeFactors=top_neg,
+            summary=summary,
+            isDemo=False,
+        )
+    except Exception as e:
+        print(f"[WARN] Real SHAP explanation failed: {e} — falling back to demo SHAP")
+        return _demo_shap(features)

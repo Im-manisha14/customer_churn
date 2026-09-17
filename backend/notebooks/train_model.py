@@ -354,6 +354,14 @@ with open(MODEL_PATH, "wb") as f:
 print(f"  ✅  Model → {MODEL_PATH}")
 
 # Save metrics
+from sklearn.metrics import roc_curve, precision_recall_curve
+
+fpr_arr, tpr_arr, _ = roc_curve(y_test, y_prob)
+roc_curve_data = [{"fpr": round(float(f), 4), "tpr": round(float(t), 4)} for f, t in zip(fpr_arr[::len(fpr_arr)//15 or 1], tpr_arr[::len(tpr_arr)//15 or 1])]
+
+prec_arr, rec_arr, _ = precision_recall_curve(y_test, y_prob)
+pr_curve_data = [{"recall": round(float(r), 4), "precision": round(float(p), 4)} for r, p in zip(rec_arr[::len(rec_arr)//15 or 1], prec_arr[::len(prec_arr)//15 or 1])]
+
 metrics = {
     "accuracy":  round(float(accuracy),  4),
     "precision": round(float(precision), 4),
@@ -366,6 +374,8 @@ metrics = {
         "tn": int(cm[0,0]), "fp": int(cm[0,1]),
         "fn": int(cm[1,0]), "tp": int(cm[1,1]),
     },
+    "rocCurve": roc_curve_data,
+    "prCurve": pr_curve_data,
 }
 with open(METRICS_PATH, "w") as f:
     json.dump(metrics, f, indent=2)
