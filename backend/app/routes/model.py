@@ -1,19 +1,31 @@
 """Model metrics and feature importance routes."""
 
+import json
+from pathlib import Path
 from fastapi import APIRouter
 from app.schemas.prediction import ModelMetrics
 
+MODEL_DIR = Path(__file__).parent.parent.parent.parent / "models"
+
 router = APIRouter()
 
-DEMO_METRICS = ModelMetrics(
-    accuracy=0.821,
-    precision=0.648,
-    recall=0.783,
-    f1Score=0.709,
-    rocAuc=0.862,
-    prAuc=0.674,
-    isDemo=True,
-)
+def _load_metrics() -> ModelMetrics:
+    """Load real metrics if available, else return demo values."""
+    path = MODEL_DIR / "metrics.json"
+    if path.exists():
+        data = json.loads(path.read_text())
+        return ModelMetrics(**data)
+    return ModelMetrics(
+        accuracy=0.821, precision=0.648, recall=0.783,
+        f1Score=0.709, rocAuc=0.862, prAuc=0.674, isDemo=True,
+    )
+
+def _load_features() -> list:
+    """Load real feature importance if available, else return demo values."""
+    path = MODEL_DIR / "feature_importance.json"
+    if path.exists():
+        return json.loads(path.read_text())
+    return DEMO_FEATURES
 
 DEMO_FEATURES = [
     {"feature": "Contract",        "displayName": "Contract Type",     "importance": 0.312, "description": "Month-to-month contracts are strongly associated with higher churn rates."},
@@ -50,20 +62,14 @@ DEMO_PR_CURVE = [
 
 @router.get("/metrics", response_model=ModelMetrics)
 async def get_metrics():
-    """
-    Return model evaluation metrics.
-    Replace DEMO_METRICS with metrics computed from your trained model.
-    """
-    return DEMO_METRICS
+    """Load real metrics.json when model is trained, else returns demo values."""
+    return _load_metrics()
 
 
 @router.get("/features")
 async def get_feature_importance():
-    """
-    Return global feature importance.
-    Replace with actual XGBoost feature_importances_ values.
-    """
-    return DEMO_FEATURES
+    """Load real feature_importance.json when model is trained, else returns demo values."""
+    return _load_features()
 
 
 @router.get("/confusion-matrix")
