@@ -1,15 +1,15 @@
 {
-  "accuracy": 0.7615,
-  "precision": 0.5361,
-  "recall": 0.754,
-  "f1Score": 0.6267,
-  "rocAuc": 0.8509,
-  "prAuc": 0.6644,
+  "accuracy": 0.7637,
+  "precision": 0.539,
+  "recall": 0.7567,
+  "f1Score": 0.6296,
+  "rocAuc": 0.8503,
+  "prAuc": 0.6625,
   "isDemo": false,
   "confusionMatrix": {
-    "tn": 791,
-    "fp": 244,
-    "fn": 92,
-    "tp": 282
+    "tn": 793,
+    "fp": 242,
+    "fn": 91,
+    "tp": 283
   }
 }

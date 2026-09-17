@@ -32,10 +32,10 @@ def load_model():
         else:
             _pipeline = saved
         DEMO_MODE = False
-        print(f"✅ Loaded model from {MODEL_PATH}")
+        print(f"[OK] Loaded model from {MODEL_PATH}")
     else:
         DEMO_MODE = True
-        print(f"⚠️  Model not found at {MODEL_PATH}. Running in DEMO mode.")
+        print(f"[INFO] Model not found at {MODEL_PATH}. Running in DEMO mode.")
 
 
 def _build_dataframe(features: CustomerFeatures) -> pd.DataFrame:
@@ -111,7 +111,7 @@ def predict(features: CustomerFeatures) -> PredictionResponse:
             prob = float(_pipeline.predict_proba(df)[0, 1])
             is_demo = False
         except Exception as e:
-            print(f"⚠️  Model prediction failed: {e} — falling back to demo")
+            print(f"[WARN] Model prediction failed: {e} — falling back to demo")
             prob = _demo_score(features)
             is_demo = True
 

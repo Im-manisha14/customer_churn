@@ -2,91 +2,91 @@
   {
     "feature": "Contract",
     "displayName": "Contract Type",
-    "importance": 0.2797,
-    "description": "XGBoost feature importance: 0.2797"
+    "importance": 0.2661,
+    "description": "XGBoost feature importance: 0.2661"
   },
   {
     "feature": "Dependents",
     "displayName": "Dependents",
-    "importance": 0.0995,
-    "description": "XGBoost feature importance: 0.0995"
+    "importance": 0.1114,
+    "description": "XGBoost feature importance: 0.1114"
   },
   {
     "feature": "OnlineSecurity",
     "displayName": "Online Security",
-    "importance": 0.0953,
-    "description": "XGBoost feature importance: 0.0953"
-  },
-  {
-    "feature": "InternetService",
-    "displayName": "Internet Service",
-    "importance": 0.0833,
-    "description": "XGBoost feature importance: 0.0833"
+    "importance": 0.1085,
+    "description": "XGBoost feature importance: 0.1085"
   },
   {
     "feature": "TechSupport",
     "displayName": "Tech Support",
-    "importance": 0.0752,
-    "description": "XGBoost feature importance: 0.0752"
+    "importance": 0.0743,
+    "description": "XGBoost feature importance: 0.0743"
+  },
+  {
+    "feature": "InternetService",
+    "displayName": "Internet Service",
+    "importance": 0.065,
+    "description": "XGBoost feature importance: 0.0650"
   },
   {
     "feature": "TenureGroup",
     "displayName": "Tenure Group",
-    "importance": 0.0451,
-    "description": "XGBoost feature importance: 0.0451"
-  },
-  {
-    "feature": "StreamingMovies",
-    "displayName": "Streaming Movies",
-    "importance": 0.0296,
-    "description": "XGBoost feature importance: 0.0296"
+    "importance": 0.0602,
+    "description": "XGBoost feature importance: 0.0602"
   },
   {
     "feature": "tenure",
     "displayName": "Tenure (months)",
-    "importance": 0.0296,
-    "description": "XGBoost feature importance: 0.0296"
+    "importance": 0.0282,
+    "description": "XGBoost feature importance: 0.0282"
+  },
+  {
+    "feature": "StreamingMovies",
+    "displayName": "Streaming Movies",
+    "importance": 0.0275,
+    "description": "XGBoost feature importance: 0.0275"
   },
   {
     "feature": "PhoneService",
     "displayName": "PhoneService",
-    "importance": 0.0229,
-    "description": "XGBoost feature importance: 0.0229"
-  },
-  {
-    "feature": "PaperlessBilling",
-    "displayName": "Paperless Billing",
-    "importance": 0.021,
-    "description": "XGBoost feature importance: 0.0210"
-  },
-  {
-    "feature": "StreamingTV",
-    "displayName": "Streaming TV",
-    "importance": 0.0208,
-    "description": "XGBoost feature importance: 0.0208"
+    "importance": 0.0235,
+    "description": "XGBoost feature importance: 0.0235"
   },
   {
     "feature": "MonthlyCharges",
     "displayName": "Monthly Charges",
-    "importance": 0.0207,
-    "description": "XGBoost feature importance: 0.0207"
+    "importance": 0.0215,
+    "description": "XGBoost feature importance: 0.0215"
   },
   {
-    "feature": "TotalCharges",
-    "displayName": "Total Charges",
+    "feature": "PaperlessBilling",
+    "displayName": "Paperless Billing",
     "importance": 0.0206,
     "description": "XGBoost feature importance: 0.0206"
   },
   {
-    "feature": "MultipleLines",
-    "displayName": "Multiple Lines",
-    "importance": 0.0203,
-    "description": "XGBoost feature importance: 0.0203"
+    "feature": "StreamingTV",
+    "displayName": "Streaming TV",
+    "importance": 0.0204,
+    "description": "XGBoost feature importance: 0.0204"
   },
   {
     "feature": "PaymentMethod",
     "displayName": "Payment Method",
-    "importance": 0.0196,
-    "description": "XGBoost feature importance: 0.0196"
+    "importance": 0.0194,
+    "description": "XGBoost feature importance: 0.0194"
+  },
+  {
+    "feature": "MultipleLines",
+    "displayName": "Multiple Lines",
+    "importance": 0.0189,
+    "description": "XGBoost feature importance: 0.0189"
+  },
+  {
+    "feature": "TotalCharges",
+    "displayName": "Total Charges",
+    "importance": 0.0187,
+    "description": "XGBoost feature importance: 0.0187"
   }
 ]
